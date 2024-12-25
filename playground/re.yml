@@ -1,0 +1,38 @@
+type: executable
+name: .playground
+
+load-context.!standalone:
+  enabled: false
+
+deps:
+  - ulib
+
+cxxenv.msvc|clang.cl:
+  cxx-build-flags:
+    compiler:
+      - "/W3 /permissive- /sourceDependencies deps.json /Zi"
+      - "/utf-8"
+    linker:
+      - "/DEBUG"
+  config.release:
+    cxx-build-flags:
+      compiler:
+        - "/O2 /Oi /Gy"
+      linker:
+        - "/LTCG /OPT:REF /OPT:ICF"
+
+cxxenv.clang.msvc:
+  cxx-link-deps:
+    - msvcrt.lib
+
+platform.windows:
+  cxxenv.!gcc:
+    cxx-link-deps:
+      - "user32.lib"
+      - "Advapi32.lib"
+
+# platform.!windows:
+#   enabled: false
+
+cxxenv.!gcc:
+  cxx-standard: 20

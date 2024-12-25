@@ -1,0 +1,38 @@
+type: executable
+name: .tests
+
+cxxenv.msvc|clang.cl:
+  cxx-build-flags:
+    compiler:
+      - "/utf-8 /W3 /permissive-"
+    linker:
+      - "/DEBUG"
+  config.release:
+    cxx-build-flags:
+      compiler:
+        - "/O2 /Oi /Gy"
+      linker:
+        - "/LTCG /OPT:REF /OPT:ICF"
+
+  config.debug:
+    cxx-build-flags:
+      compiler:
+        - '/Zi'
+
+load-context.!standalone:
+  enabled: false
+
+deps:
+  - ulib
+
+platform.windows:
+  deps:
+    - vcpkg:gtest
+
+platform.!windows:
+  deps:
+    - vcpkg:gtest
+
+platform.linux|osx:
+  cxx-global-link-deps:
+    - pthread
